@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Form</title>
+</head>
+
+<body>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: beige;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #table_container {
+            background-color: white;
+            width: 300px;
+            height: 220px;
+            margin-top: 20px;
+            border: 2px solid black;
+            font-size: large;
+        }
+
+        td {
+            padding: 5px;
+            text-align: left;
+            width: 100%;
+
+        }
+
+        #btn_save {
+            width: 370%;
+            height: 25px;
+            background-color: green;
+            color: white;
+        }
+
+
+        #heading {
+            margin-top: 50px;
+        }
+
+        #output_table th,
+        #output_table td {
+            border: 1px solid black;
+            text-align: center;
+        }
+
+        #output_table {
+            border-collapse: collapse;
+            width: 90%;
+            margin-top: 10px;
+        }
+    </style>
+    <h1 id="heading">STUDENT FORM</h1>
+    <table id="table_container">
+        <tr>
+            <td> <label for="name">Name: </label>
+            </td>
+            <td>
+                <input type="text" placeholder="Enter your name" id="name">
+            </td>
+        </tr>
+        <tr>
+            <td> <label for="age">Age: </label>
+            </td>
+            <td>
+                <input type="number" placeholder="Enter your age" id="age">
+            </td>
+        </tr>
+        <tr>
+            <td> <label for="gender">Gender: </label>
+            </td>
+            <td id="gender">
+                <input type="radio" name="gender" value="Male"> Male
+                <input type="radio" name="gender" value="Female"> Female
+            </td>
+        </tr>
+        <tr>
+            <td><label for="email">Email: </label>
+            </td>
+            <td>
+                <input type="email" placeholder="Enter your email" id="email">
+            </td>
+        </tr>
+        <tr>
+            <td><label for="Course">Course: </label></td>
+            <td>
+                <select id="course">
+                    <option>Full Stack Web Development</option>
+                    <option>ReactJS</option>
+                    <option>Java Script</option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td> <button id="btn_save" onclick="saveData()">Save</button></td>
+        </tr>
+    </table>
+    <table id="output_table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Email</th>
+                <th>Course</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="output_body">
+
+        </tbody>
+    </table>
+    <script>
+        function saveData() {
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const email = document.getElementById('email').value;
+            const course = document.getElementById('course').value;
+            const genderRadios = document.getElementsByName('gender');
+            let gender = '';
+            for (let radio of genderRadios) {
+                if (radio.checked) {
+                    gender = radio.value;
+                    break;
+                }
+            }
+
+            if (!name || !age || !gender || !email) {
+                alert("Please fill all the required fields.");
+                return;
+            }
+
+            const tableBody = document.getElementById('output_body');
+            const row = document.createElement('tr');
+            row.innerHTML = `
+            <td>${name}</td>
+            <td>${age}</td>
+            <td>${gender}</td>
+            <td>${email}</td>
+            <td>${course}</td>
+            <td><button onclick="deleteRow(this)">Delete</button></td>
+        `;
+            tableBody.appendChild(row);
+
+            document.getElementById('name').value = '';
+            document.getElementById('age').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('course').selectedIndex = 0;
+            for (let radio of genderRadios) {
+                radio.checked = false;
+            }
+        }
+
+        function deleteRow(button) {
+            const row = button.parentElement.parentElement;
+            row.remove();
+        }
+    </script>
+
+</body>
+
+</html>
